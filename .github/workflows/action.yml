@@ -1,0 +1,37 @@
+name: Action Project
+on: push
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+            - name: Install Nodejs
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+            - name: Install Dependencies
+              run: npm ci
+            - name: Super-linter
+              uses: super-linter/super-linter@v5.7.2
+    
+    test:
+        needs: lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+            - name: Install nodejs
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+            - name: Install Dependencies
+              run: npm ci
+            - name: Run test
+              run: npm test
+            - name: Build project
+              run: npm run build
+            - name: Deploy
+              run: echo "Deplpying..."
+
+
